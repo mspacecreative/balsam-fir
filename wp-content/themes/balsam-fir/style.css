@@ -1,0 +1,131 @@
+/*
+ Theme Name:   Nova Scotia Balsam Fir
+ Theme URI:    http://nsbalsamfir.com
+ Description:  Nova Scotia Balsam Fir custom theme
+ Author:       Matt
+ Author URI:   http://mspacecreative.com
+ Template:     Divi
+ Version:      1.0
+*/
+
+.logo-centered-on-slide {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	opacity: 1;
+	visibility: visible;
+	transition: all 1000ms ease-in;
+	-webkit-transition: all 1000ms ease;
+	-moz-transition: all 1000ms ease;
+	-o-transition: all 1000ms ease;
+}
+.logo-centered-on-slide.scroll {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1000ms ease;
+	-moz-transition: all 1000ms ease;
+	-o-transition: all 1000ms ease;
+	visibility: hidden;
+	opacity: 0;
+}
+
+/* Custom Header
+---------------------------------------*/
+
+.logo img {
+	max-width: 300px;
+	height: auto;
+}
+.balsam-header {
+	background: none;
+	padding: 20px;
+	position: fixed;
+	width: 100%;
+	left: 0;
+	top: 0;
+	transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	z-index: 10;
+}
+.balsam-header.scroll {
+	box-shadow: 0px 2px 15px #666;
+	transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	background: #fff;
+}
+.logo {
+	float: left;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+}
+.balsam-header.scroll .logo {
+	opacity: 1;
+	transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	visibility: visible;
+}
+.logo img {
+	display: block;
+}
+.header-inner, .footer-inner {
+	max-width: 1080px;
+	margin: auto;
+	width: 90%;
+}
+.balsam-header ul {
+	list-style: none;
+	float: right;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	font-family: sans-serif;
+	font-size: 14px;
+	display: table;
+	height: 31px;
+}
+.balsam-header li {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 0 0 0 20px;
+}
+.balsam-header.scroll a {
+	color: #000;
+	transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+}
+.balsam-header a {
+	text-decoration: none;
+	color: #fff;
+	transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+}
+
+/* CUSTOM FOOTER
+------------------------------------------------*/
+
+#balsam-footer {
+	background: url(images/balsam-fir-bg.jpg) no-repeat center center fixed;
+	background-size: cover;
+	padding: 10% 0;
+}
+
+.footer-inner {
+	color: #fff;
+}
