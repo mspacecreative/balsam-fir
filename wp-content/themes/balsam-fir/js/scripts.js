@@ -21,4 +21,15 @@ $(function () {
 	        $(".balsam-header, .logo-centered-on-slide").removeClass("scroll");
 	    }
 	});
+	
+	$('.hamburger').click(function() {
+		$('.hamburger').toggleClass('is-active');
+		$('.balsam-mobile-nav').slideToggle();
+	});
+	
+	$('.balsam-mobile-nav a').click(function() {
+		$('.hamburger').toggleClass('is-active');
+		$('.balsam-mobile-nav').slideToggle();
+	});
+	
 });

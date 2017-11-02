@@ -205,6 +205,11 @@
 	<?php endif; // true ==== $et_slide_header ?>
 
 		<header class="balsam-header">
+			
+			<div class="balsam-mobile-nav">
+				<?php wp_nav_menu(); ?>
+			</div>
+			
 			<div class="header-inner clearfix">
 				
 				<div class="logo">
@@ -214,6 +219,12 @@
 				<nav class="balsam-navigation">
 					<?php wp_nav_menu(); ?>
 				</nav>
+				
+				<div class="hamburger hamburger--spin">
+				  <div class="hamburger-box">
+				    <div class="hamburger-inner"></div>
+				  </div>
+				</div>
 				
 			</div>
 		</header>
