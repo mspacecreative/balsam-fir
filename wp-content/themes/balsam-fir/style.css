@@ -265,6 +265,15 @@
 }
 }
 
+@media (max-width: 1024px) {
+
+#about:after {
+	width: 250px;
+	height: 270px;
+	opacity: .5;
+}
+}
+
 @media (max-width: 736px) {
 
 #about:after {
