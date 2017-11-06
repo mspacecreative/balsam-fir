@@ -25,6 +25,10 @@ if ( ! is_page_template( 'page-template-blank.php' ) ) : ?>
 					<p><a href="mailto:<?php echo $email ?>"><?php echo $email ?></a></p>
 					<?php } ?>
 				</div>
+				<div class="tree-icon-container">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/tree-icon-transparent.png" class="tree-icon" />
+					<h4>Born &amp; Raised in Nova Scotia</h4>
+				</div>
 			</footer>
 		</div> <!-- #et-main-area -->
 

@@ -192,10 +192,35 @@
 	background: url(images/balsam-fir-bg.jpg) no-repeat center center fixed;
 	background-size: cover;
 	padding: 10% 0;
+	position: relative;
 }
 
 .footer-inner {
 	color: #fff;
+}
+
+#balsam-footer h4 {
+	color: #fff;
+	text-align: center;
+	margin-top: 20px;
+	font-size: 15px;
+	padding: 0;
+	line-height: 1.25em;
+}
+
+.tree-icon {
+	width: 100%;
+	max-width: 210px;
+	height: auto;
+	display: block;
+	margin: auto;
+}
+
+.tree-icon-container {
+	position: absolute;
+	bottom: 50px;
+	right: 5%;
+	max-width: 210px;
 }
 
 /* MEDIA QUERIES
@@ -274,11 +299,32 @@
 }
 }
 
+@media (max-width: 768px) {
+
+.tree-icon-container {
+	bottom: 20px;
+	max-width: 150px;
+}
+}
+
 @media (max-width: 736px) {
 
 #about:after {
 	width: 200px;
 	height: 215px;
 	opacity: .5;
+}
+
+.tree-icon {
+	max-width: 100px;
+}
+
+#balsam-footer h4 {
+	font-size: 11px;
+	margin-top: 10px;
+}
+
+.tree-icon-container {
+	max-width: 100px;
 }
 }
