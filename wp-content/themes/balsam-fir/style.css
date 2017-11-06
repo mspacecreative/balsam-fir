@@ -172,6 +172,19 @@
   bottom: -8px;
 }
 
+#about:after {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	content: '';
+	background-image: url(images/tree-cluster.png);
+	width: 300px;
+	height: 320px;
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	background-size: cover;
+}
+
 /* CUSTOM FOOTER
 ------------------------------------------------*/
 
@@ -249,5 +262,14 @@
 
 .et_pb_image_0.balsam-logo {
 	max-width: 80%;
+}
+}
+
+@media (max-width: 736px) {
+
+#about:after {
+	width: 200px;
+	height: 215px;
+	opacity: .5;
 }
 }
