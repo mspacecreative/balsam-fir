@@ -213,7 +213,7 @@
 			<div class="header-inner clearfix">
 				
 				<div class="logo">
-					<a href="<?php echo home_url(); ?>"><img src="http://localhost/balsam-fir/wp-content/themes/balsam-fir/images/balsam-fir-logo-hor.png" alt="" /></a>
+					<a href="<?php echo home_url(); ?>"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/balsam-fir-logo-hor.png" alt="" /></a>
 				</div>
 				
 				<nav class="balsam-navigation">
