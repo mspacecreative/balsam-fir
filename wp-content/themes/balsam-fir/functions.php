@@ -29,6 +29,15 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_sub_page('Footer');
 }
 
+/* WORDPRESS ADMIN STYLES */
+function registerCustomAdminCss(){
+	$src = get_stylesheet_directory_uri() . 'css/editor-style.css';
+	$handle = "customAdminCss";
+	wp_register_script($handle, $src);
+	wp_enqueue_style($handle, $src, array(), false, false);
+}
+
 /* ENQUEUE STYLES/SCRIPTS */
 add_action('init', 'footer_scripts');
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_styles');
+add_action('admin_head', 'registerCustomAdminCss');
