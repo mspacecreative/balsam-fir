@@ -210,7 +210,6 @@
 
 .tree-icon {
 	width: 100%;
-	max-width: 210px;
 	height: auto;
 	display: block;
 	margin: auto;
@@ -297,13 +296,32 @@
 	height: 270px;
 	opacity: .5;
 }
-}
-
-@media (max-width: 768px) {
 
 .tree-icon-container {
-	bottom: 20px;
+	bottom: 40px;
+	max-width: 220px;
+}
+
+#balsam-footer h4 {
+	margin-top: 10px;
+}
+
+.tree-icon {
 	max-width: 150px;
+}
+}
+
+@media (max-width: 414px) {
+
+.tree-icon-container {
+	max-width: 200px;
+}
+}
+
+@media (max-width: 320px) {
+
+.tree-icon-container {
+	max-width: 100px;
 }
 }
 
@@ -315,6 +333,10 @@
 	opacity: .5;
 }
 
+.tree-icon-container {
+	bottom: 20px;
+}
+
 .tree-icon {
 	max-width: 100px;
 }
@@ -322,9 +344,5 @@
 #balsam-footer h4 {
 	font-size: 11px;
 	margin-top: 10px;
-}
-
-.tree-icon-container {
-	max-width: 100px;
 }
 }
