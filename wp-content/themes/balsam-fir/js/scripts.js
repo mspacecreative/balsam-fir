@@ -2,6 +2,7 @@ $(function () {
 	
 	function homeSlide() {
 		$('.full-height-vp').outerHeight($(window).height());
+		$('#main-content').css('margin-bottom', $('footer').outerHeight());
 	}
 	
 	$(document).ready(function () {

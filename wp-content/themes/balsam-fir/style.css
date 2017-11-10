@@ -185,6 +185,11 @@
 	background-size: cover;
 }
 
+#et-main-area {
+	z-index: 2;
+	position: relative;
+}
+
 /* CUSTOM FOOTER
 ------------------------------------------------*/
 
@@ -192,7 +197,10 @@
 	background: url(images/balsam-fir-bg.jpg) no-repeat center center fixed;
 	background-size: cover;
 	padding: 10% 0;
-	position: relative;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 1;
 }
 
 .footer-inner {
