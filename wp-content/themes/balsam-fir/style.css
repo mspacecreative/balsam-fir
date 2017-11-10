@@ -194,7 +194,7 @@
 ------------------------------------------------*/
 
 #balsam-footer {
-	background: url(images/balsam-fir-bg.jpg) no-repeat center center fixed;
+	background: url(images/balsam-fir-bg.jpg) no-repeat center center scroll;
 	background-size: cover;
 	padding: 10% 0;
 	position: fixed;
