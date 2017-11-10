@@ -185,22 +185,14 @@
 	background-size: cover;
 }
 
-#et-main-area {
-	z-index: 2;
-	position: relative;
-}
-
 /* CUSTOM FOOTER
 ------------------------------------------------*/
 
 #balsam-footer {
-	background: url(images/balsam-fir-bg.jpg) no-repeat center center scroll;
+	background: url(images/balsam-fir-bg.jpg) no-repeat center center fixed;
 	background-size: cover;
 	padding: 10% 0;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	z-index: 1;
+	position: relative;
 }
 
 .footer-inner {
