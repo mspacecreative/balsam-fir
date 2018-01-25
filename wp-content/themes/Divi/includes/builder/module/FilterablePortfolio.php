@@ -55,7 +55,7 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 						'title'    => esc_html__( 'Text', 'et_builder' ),
 						'priority' => 49,
 					),
-					'icon_settings' => esc_html__( 'Image', 'et_builder' ),
+					'image' => esc_html__( 'Image', 'et_builder' ),
 				),
 			),
 		);
@@ -74,7 +74,7 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 					),
 				),
 				'filter' => array(
-					'label'    => esc_html__( 'Filter', 'et_builder' ),
+					'label'    => esc_html__( 'Filter Criteria', 'et_builder' ),
 					'hide_text_align' => true,
 					'css'      => array(
 						'main' => "{$this->main_css_element} .et_pb_portfolio_filter",
@@ -106,7 +106,10 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 			),
 			'border' => array(
 				'css' => array(
-					'main' => "{$this->main_css_element} .et_pb_portfolio_item",
+					'main' => array(
+						'border_radii' => "{$this->main_css_element} .et_pb_portfolio_item",
+						'border_styles' => "{$this->main_css_element} .et_pb_portfolio_item",
+					),
 				),
 			),
 			'custom_margin_padding' => array(
@@ -120,6 +123,20 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 				),
 			),
 			'text'      => array(),
+			'filters' => array(
+				'css' => array(
+					'main' => '%%order_class%%',
+				),
+				'child_filters_target' => array(
+					'tab_slug' => 'advanced',
+					'toggle_slug' => 'image',
+				),
+			),
+			'image' => array(
+				'css' => array(
+					'main' => '%%order_class%% .et_portfolio_image',
+				),
+			),
 		);
 		$this->custom_css_options = array(
 			'portfolio_filters' => array(
@@ -339,7 +356,7 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 			'label'           => esc_html__( 'Image Box Shadow', 'et_builder' ),
 			'option_category' => 'layout',
 			'tab_slug'        => 'advanced',
-			'toggle_slug'     => 'icon_settings',
+			'toggle_slug'     => 'image',
 		) ) );
 
 		return $fields;
@@ -627,6 +644,15 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 
 		$class = " et_pb_module et_pb_bg_layout_{$background_layout}";
 
+		// Images: Add CSS Filters and Mix Blend Mode rules (if set)
+		if ( isset( $this->advanced_options['image']['css'] ) ) {
+			$module_class .= $this->generate_css_filters(
+				$function_name,
+				'child_',
+				self::$data_utils->array_get( $this->advanced_options['image']['css'], 'main', '%%order_class%%' )
+			);
+		}
+
 		$output = sprintf(
 			'<div%5$s class="et_pb_filterable_portfolio et_pb_portfolio %1$s%4$s%6$s%11$s%13$s%15$s" data-posts-number="%7$d"%10$s>
 				%14$s
@@ -668,6 +694,58 @@ class ET_Builder_Module_Filterable_Portfolio extends ET_Builder_Module_Type_Post
 		) );
 
 		parent::process_box_shadow( $function_name );
+	}
+
+	protected function _add_additional_border_fields() {
+		parent::_add_additional_border_fields();
+
+		$suffix = 'image';
+		$tab_slug = 'advanced';
+		$toggle_slug = 'image';
+
+		$this->_additional_fields_options = array_merge(
+			$this->_additional_fields_options,
+			ET_Builder_Module_Fields_Factory::get( 'Border' )->get_fields( array(
+				'suffix'       => "_{$suffix}",
+				'label_prefix' => esc_html__( 'Image', 'et_builder' ),
+				'tab_slug'      => $tab_slug,
+				'toggle_slug'   => $toggle_slug,
+			) )
+		);
+
+		$this->advanced_options["border_{$suffix}"]["border_radii_{$suffix}"] = $this->_additional_fields_options["border_radii_{$suffix}"];
+		$this->advanced_options["border_{$suffix}"]["border_styles_{$suffix}"] = $this->_additional_fields_options["border_styles_{$suffix}"];
+
+		$this->advanced_options["border_{$suffix}"]['css'] = array(
+			'main' => array(
+				'border_radii'  => "{$this->main_css_element} .et_portfolio_image",
+				'border_styles' => "{$this->main_css_element} .et_portfolio_image",
+			)
+		);
+	}
+
+	function process_advanced_border_options( $function_name ) {
+		parent::process_advanced_border_options( $function_name );
+
+		$suffix = 'image';
+		/**
+		 * @var ET_Builder_Module_Field_Border $border_field
+		 */
+		$border_field = ET_Builder_Module_Fields_Factory::get( 'Border' );
+
+		$css_selector = ! empty( $this->advanced_options["border_{$suffix}"]['css']['main']['border_radii'] ) ? $this->advanced_options["border_{$suffix}"]['css']['main']['border_radii'] : $this->main_css_element;
+		self::set_style( $function_name, array(
+			'selector'    => $css_selector,
+			'declaration' => $border_field->get_radii_style( $this->shortcode_atts, $this->advanced_options, "_{$suffix}" ),
+			'priority'    => $this->_style_priority,
+		) );
+
+		$css_selector = ! empty( $this->advanced_options["border_{$suffix}"]['css']['main']['border_styles'] ) ? $this->advanced_options["border_{$suffix}"]['css']['main']['border_styles'] : $this->main_css_element;
+		self::set_style( $function_name, array(
+			'selector'    => $css_selector,
+			'declaration' => $border_field->get_borders_style( $this->shortcode_atts, $this->advanced_options, "_{$suffix}" ),
+			'priority'    => $this->_style_priority,
+		) );
 	}
 }
 

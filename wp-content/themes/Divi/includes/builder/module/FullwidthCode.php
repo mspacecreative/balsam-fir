@@ -29,6 +29,7 @@ class ET_Builder_Module_Fullwidth_Code extends ET_Builder_Module {
 			'custom_margin_padding' => array(),
 			'max_width'             => array(),
 			'text'                  => array(),
+			'filters'               => array(),
 		);
 
 		// wptexturize is often incorrectly parsed single and double quotes
@@ -124,6 +125,16 @@ class ET_Builder_Module_Fullwidth_Code extends ET_Builder_Module {
 	public function _add_additional_shadow_fields() {
 
 	}
+
+	protected function _add_additional_border_fields() {
+		return false;
+	}
+
+	function process_advanced_border_options( $function_name ) {
+		return false;
+	}
+
+
 }
 
 new ET_Builder_Module_Fullwidth_Code;

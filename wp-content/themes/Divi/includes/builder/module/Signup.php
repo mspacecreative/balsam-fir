@@ -86,7 +86,6 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 					),
 				),
 			),
-			'border'                => array(),
 			'custom_margin_padding' => array(
 				'css' => array(
 					'important' => 'all',
@@ -113,7 +112,8 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 				'css' => array(
 					'text_shadow' => "{$this->main_css_element} input",
 				),
-			)
+			),
+			'filters' => array(),
 		);
 
 		$this->custom_css_options = array(
@@ -286,7 +286,6 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 			'content_new',
 			'first_name_field',
 			'focus_background_color',
-			'focus_border_color',
 			'focus_text_color',
 			'form_field_background_color',
 			'form_field_text_color',
@@ -302,7 +301,6 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 			'success_redirect_query',
 			'title',
 			'use_background_color',
-			'use_focus_border_color',
 			'box_shadow_style_fields',
 			'box_shadow_horizontal_fields',
 			'box_shadow_vertical_fields',
@@ -547,28 +545,6 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 					'custom_color' => true,
 					'tab_slug'     => 'advanced',
 					'toggle_slug'  => 'fields',
-				),
-				'use_focus_border_color'      => array(
-					'label'           => esc_html__( 'Use Focus Border Color', 'et_builder' ),
-					'type'            => 'yes_no_button',
-					'option_category' => 'color_option',
-					'options'         => array(
-						'off' => esc_html__( 'No', 'et_builder' ),
-						'on'  => esc_html__( 'Yes', 'et_builder' ),
-					),
-					'affects'         => array(
-						'focus_border_color',
-					),
-					'tab_slug'        => 'advanced',
-					'toggle_slug'     => 'fields',
-				),
-				'focus_border_color'          => array(
-					'label'           => esc_html__( 'Focus Border Color', 'et_builder' ),
-					'type'            => 'color-alpha',
-					'custom_color'    => true,
-					'depends_default' => true,
-					'tab_slug'        => 'advanced',
-					'toggle_slug'     => 'fields',
 				),
 				'disabled_on'                 => array(
 					'label'           => esc_html__( 'Disable on', 'et_builder' ),
@@ -828,13 +804,12 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 		$form_field_text_color       = $this->shortcode_atts['form_field_text_color'];
 		$focus_background_color      = $this->shortcode_atts['focus_background_color'];
 		$focus_text_color            = $this->shortcode_atts['focus_text_color'];
-		$use_focus_border_color      = $this->shortcode_atts['use_focus_border_color'];
-		$focus_border_color          = $this->shortcode_atts['focus_border_color'];
 		$success_action              = $this->shortcode_atts['success_action'];
 		$success_message             = $this->shortcode_atts['success_message'];
 		$success_redirect_url        = $this->shortcode_atts['success_redirect_url'];
 		$success_redirect_query      = $this->shortcode_atts['success_redirect_query'];
 		$header_level                = $this->shortcode_atts['header_level'];
+		$use_focus_border_color      = $this->shortcode_atts['use_focus_border_color'];
 
 		$_provider   = self::providers()->get( $provider, '', 'builder' );
 		$_name_field = $_provider->name_field_only ? 'name_field_only' : 'name_field';
@@ -862,16 +837,6 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 				'declaration' => sprintf(
 					'color: %1$s !important;',
 					esc_html( $focus_text_color )
-				),
-			) );
-		}
-
-		if ( 'off' !== $use_focus_border_color ) {
-			ET_Builder_Element::set_style( $function_name, array(
-				'selector'    => '%%order_class%% .et_pb_newsletter_form p input.input:focus',
-				'declaration' => sprintf(
-					'border: 1px solid %1$s !important;',
-					esc_html( $focus_border_color )
 				),
 			) );
 		}
@@ -972,8 +937,8 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 		}
 
 		$output = sprintf(
-			'<div%6$s class="et_pb_newsletter et_pb_subscribe clearfix%4$s%7$s%8$s%9$s%11$s"%5$s%13$s%14$s>
-				%12$s
+			'<div%6$s class="et_pb_newsletter et_pb_subscribe clearfix%4$s%7$s%8$s%9$s%11$s%12$s"%5$s%14$s%15$s>
+				%13$s
 				%10$s
 				<div class="et_pb_newsletter_description">
 					%1$s
@@ -994,10 +959,11 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 			( 'on' !== $use_background_color ? ' et_pb_no_bg' : '' ),
 			'' !== $video_background ? ' et_pb_section_video et_pb_preload' : '',
 			$video_background, // #10
-			'' !== $parallax_image_background ? ' et_pb_section_parallax' : '',
-			$parallax_image_background,
-			$success_redirect_url,
-			$success_redirect_query // #14
+			( '' !== $parallax_image_background ? ' et_pb_section_parallax' : '' ), // #11
+			( 'on' === $use_focus_border_color ? ' et_pb_with_focus_border' : '' ), // #12
+			$parallax_image_background, // #13
+			$success_redirect_url, // #14
+			$success_redirect_query // #15
 		);
 
 		return $output;
@@ -1025,6 +991,128 @@ class ET_Builder_Module_Signup extends ET_Builder_Module {
 		);
 
 		parent::process_box_shadow( $function_name );
+	}
+
+	protected function _add_additional_border_fields() {
+		parent::_add_additional_border_fields();
+
+		$suffix = 'fields';
+		$tab_slug = 'advanced';
+		$toggle_slug = 'fields';
+
+		$this->_additional_fields_options = array_merge(
+			$this->_additional_fields_options,
+			ET_Builder_Module_Fields_Factory::get( 'Border' )->get_fields( array(
+				'suffix'          => "_{$suffix}",
+				'label_prefix'    => esc_html__( 'Fields', 'et_builder' ),
+				'tab_slug'        => $tab_slug,
+				'toggle_slug'     => $toggle_slug,
+				'defaults'        => array(
+					'border_radii'  => 'on|3px|3px|3px|3px',
+					'border_styles' => array(
+						'width' => '0px',
+						'color' => '#333333',
+						'style' => 'solid',
+					),
+				),
+			) )
+		);
+
+		$this->advanced_options["border_{$suffix}"]["border_radii_{$suffix}"] = $this->_additional_fields_options["border_radii_{$suffix}"];
+		$this->advanced_options["border_{$suffix}"]["border_styles_{$suffix}"] = $this->_additional_fields_options["border_styles_{$suffix}"];
+
+		$this->advanced_options["border_{$suffix}"]['css'] = array(
+			'main' => array(
+				'border_radii' => "%%order_class%% .et_pb_newsletter_form p input",
+				'border_styles' => "%%order_class%% .et_pb_newsletter_form p input",
+			)
+		);
+
+		$this->_additional_fields_options = array_merge(
+			$this->_additional_fields_options,
+			array('use_focus_border_color' => array(
+				'label'           => esc_html__( 'Use Focus Borders', 'et_builder' ),
+				'type'            => 'yes_no_button',
+				'option_category' => 'color_option',
+				'options'         => array(
+					'off' => esc_html__( 'No', 'et_builder' ),
+					'on'  => esc_html__( 'Yes', 'et_builder' ),
+				),
+				'affects'     => array(
+					'border_radii_fields_focus',
+					'border_styles_fields_focus',
+				),
+				'tab_slug'        => 'advanced',
+				'toggle_slug'     => 'fields',
+			)
+			)
+		);
+
+		$suffix = 'fields_focus';
+		$tab_slug = 'advanced';
+		$toggle_slug = 'fields';
+
+		$this->_additional_fields_options = array_merge(
+			$this->_additional_fields_options,
+			ET_Builder_Module_Fields_Factory::get( 'Border' )->get_fields( array(
+				'suffix'          => "_{$suffix}",
+				'label_prefix'    => esc_html__( 'Focus', 'et_builder' ),
+				'tab_slug'        => $tab_slug,
+				'toggle_slug'     => $toggle_slug,
+				'depends_to'      => array( 'use_focus_border_color' ),
+				'depends_show_if' => 'on',
+				'defaults'        => array(
+					'border_radii'  => 'on|3px|3px|3px|3px',
+					'border_styles' => array(
+						'width' => '0px',
+						'color' => '#333333',
+						'style' => 'solid',
+					),
+				),
+			) )
+		);
+
+		$this->advanced_options["border_{$suffix}"]["border_radii_{$suffix}"] = $this->_additional_fields_options["border_radii_{$suffix}"];
+		$this->advanced_options["border_{$suffix}"]["border_styles_{$suffix}"] = $this->_additional_fields_options["border_styles_{$suffix}"];
+
+		$this->advanced_options["border_{$suffix}"]['css'] = array(
+			'main' => array(
+				'border_radii' => "%%order_class%% .et_pb_newsletter_form p input:focus",
+				'border_styles' => "%%order_class%% .et_pb_newsletter_form p input:focus",
+			)
+		);
+	}
+
+	function process_advanced_border_options( $function_name ) {
+		parent::process_advanced_border_options( $function_name );
+
+		$suffixes = array( 'fields' );
+
+		$use_focus_border_color = $this->shortcode_atts['use_focus_border_color'] === 'on' ? true : false;
+		if ( $use_focus_border_color ) {
+			$suffixes[] = 'fields_focus';
+		}
+
+		foreach ($suffixes as $suffix) {
+			/**
+			 * @var ET_Builder_Module_Field_Border $border_field
+			 */
+			$border_field = ET_Builder_Module_Fields_Factory::get( 'Border' );
+
+			$css_selector = ! empty( $this->advanced_options["border_{$suffix}"]['css']['main']['border_radii'] ) ? $this->advanced_options["border_{$suffix}"]['css']['main']['border_radii'] : $this->main_css_element;
+			self::set_style( $function_name, array(
+				'selector'    => $css_selector,
+				'declaration' => $border_field->get_radii_style( $this->shortcode_atts, $this->advanced_options, "_{$suffix}" ),
+				'priority'    => $this->_style_priority,
+			) );
+
+			$css_selector = ! empty( $this->advanced_options["border_{$suffix}"]['css']['main']['border_styles'] ) ? $this->advanced_options["border_{$suffix}"]['css']['main']['border_styles'] : $this->main_css_element;
+			self::set_style( $function_name, array(
+				'selector'    => $css_selector,
+				'declaration' => $border_field->get_borders_style( $this->shortcode_atts, $this->advanced_options, "_{$suffix}" ),
+				'priority'    => $this->_style_priority,
+			) );
+		}
 	}
 }
 new ET_Builder_Module_Signup;

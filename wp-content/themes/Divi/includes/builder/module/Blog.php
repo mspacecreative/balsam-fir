@@ -25,7 +25,6 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			'module_id',
 			'module_class',
 			'masonry_tile_background_color',
-			'use_dropshadow',
 			'use_overlay',
 			'overlay_icon_color',
 			'hover_overlay_color',
@@ -46,7 +45,6 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			'show_pagination'   => array( 'on' ),
 			'offset_number'     => array( 0, 'only_default_setting' ),
 			'background_layout' => array( 'light' ),
-			'use_dropshadow'    => array( 'off' ),
 			'use_overlay'       => array( 'off' ),
 		);
 
@@ -64,6 +62,10 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				'toggles' => array(
 					'layout'  => esc_html__( 'Layout', 'et_builder' ),
 					'overlay' => esc_html__( 'Overlay', 'et_builder' ),
+					'image' => array(
+						'title' => esc_html__( 'Image', 'et_builder' ),
+						'priority' => 51,
+					),
 					'text'    => array(
 						'title'    => esc_html__( 'Text', 'et_builder' ),
 						'priority' => 49,
@@ -73,6 +75,24 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		);
 
 		$this->advanced_options = array(
+			'border' => array(
+				'css' => array(
+					'main' => array(
+						'border_radii'  => "%%order_class%%.et_pb_blog_grid .et_pb_post",
+						'border_styles' => "%%order_class%%.et_pb_blog_grid .et_pb_post",
+					),
+				),
+				'depends_to'      => array( 'fullwidth' ),
+				'depends_show_if' => 'off',
+				'defaults' => array(
+					'border_radii'  => 'on|0px|0px|0px|0px',
+					'border_styles' => array(
+						'width' => '1px',
+						'color' => '#d8d8d8',
+						'style' => 'solid',
+					),
+				),
+			),
 			'fonts' => array(
 				'header' => array(
 					'label'    => esc_html__( 'Title', 'et_builder' ),
@@ -108,7 +128,7 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				'pagination' => array(
 					'label'    => esc_html__( 'Pagination', 'et_builder' ),
 					'css'      => array(
-						'main' => function_exists( 'wp_pagenavi' ) ? "%%order_class%% .wp-pagenavi a, %%order_class%% .wp-pagenavi span" : "%%order_class%% .pagination a",
+						'main' => function_exists( 'wp_pagenavi' ) ? '%%order_class%% .wp-pagenavi a, %%order_class%% .wp-pagenavi span' : '%%order_class%% .pagination a',
 						'important'  => function_exists( 'wp_pagenavi' ) ? 'all' : array(),
 						'text_align' => '%%order_class%% .wp-pagenavi',
 					),
@@ -118,16 +138,10 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 					),
 				),
 			),
-			'border' => array(
-				'css'      => array(
-					'main' => "%%order_class%%.et_pb_module .et_pb_post",
-					'important' => 'plugin_only',
-				),
-			),
 			'background' => array(
 				'css' => array(
 					'main' => '%%order_class%%',
-				)
+				),
 			),
 			'custom_margin_padding' => array(
 				'css'           => array(
@@ -140,7 +154,23 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 					'text_shadow' => '%%order_class%%',
 				),
 			),
+			'filters' => array(
+				'child_filters_target' => array(
+					'tab_slug' => 'advanced',
+					'toggle_slug' => 'image',
+				),
+            ),
+			'image' => array(
+				'css' => array(
+					'main' => array(
+						'%%order_class%% img',
+						'%%order_class%% .et_pb_slides',
+						'%%order_class%% .et_pb_video_overlay',
+					),
+				),
+			),
 		);
+
 		$this->custom_css_options = array(
 			'title' => array(
 				'label'    => esc_html__( 'Title', 'et_builder' ),
@@ -177,8 +207,11 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				),
 				'affects'           => array(
 					'background_layout',
-					'use_dropshadow',
 					'masonry_tile_background_color',
+					'border_radii_fullwidth',
+					'border_styles_fullwidth',
+					'border_radii',
+					'border_styles',
 				),
 				'description'        => esc_html__( 'Toggle between the various blog layout types.', 'et_builder' ),
 				'computed_affects'   => array(
@@ -419,22 +452,7 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				'toggle_slug'       => 'background',
 				'depends_show_if'   => 'off',
 				'depends_to'        => array(
-					'fullwidth'
-				),
-			),
-			'use_dropshadow' => array(
-				'label'             => esc_html__( 'Use Dropshadow', 'et_builder' ),
-				'type'              => 'yes_no_button',
-				'option_category'   => 'layout',
-				'options'           => array(
-					'off' => esc_html__( 'Off', 'et_builder' ),
-					'on'  => esc_html__( 'On', 'et_builder' ),
-				),
-				'tab_slug'          => 'advanced',
-				'toggle_slug'       => 'layout',
-				'depends_show_if'   => 'off',
-				'depends_to'        => array(
-					'fullwidth'
+					'fullwidth',
 				),
 			),
 			'disabled_on' => array(
@@ -539,7 +557,6 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			'show_more'                     => '',
 			'offset_number'                 => '',
 			'masonry_tile_background_color' => '',
-			'use_dropshadow'                => '',
 			'overlay_icon_color'            => '',
 			'hover_overlay_color'           => '',
 			'hover_icon'                    => '',
@@ -560,7 +577,7 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		// remove all filters from WP audio shortcode to make sure current theme doesn't add any elements into audio module
 		remove_all_filters( 'wp_audio_shortcode_library' );
 		remove_all_filters( 'wp_audio_shortcode' );
-		remove_all_filters( 'wp_audio_shortcode_class');
+		remove_all_filters( 'wp_audio_shortcode_class' );
 
 		$args = wp_parse_args( $args, $defaults );
 
@@ -591,8 +608,8 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			'post_status'    => 'publish',
 		);
 
-		if ( defined( 'DOING_AJAX' ) && isset( $current_page[ 'paged'] ) ) {
-			$paged = intval( $current_page[ 'paged' ] );
+		if ( defined( 'DOING_AJAX' ) && isset( $current_page['paged'] ) ) {
+			$paged = intval( $current_page['paged'] );
 		} else {
 			$paged = $is_front_page ? get_query_var( 'page' ) : get_query_var( 'paged' );
 		}
@@ -862,6 +879,13 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 	}
 
 	function shortcode_callback( $atts, $content = null, $function_name ) {
+		global $post;
+
+		// Stored current global post as variable so global $post variable can be restored
+		// to its original state when et_pb_blog shortcode ends to avoid incorrect global $post
+		// being used on the page (i.e. blog + shop module in backend builder)
+		$post_cache = $post;
+
 		/**
 		 * Cached $wp_filter so it can be restored at the end of the callback.
 		 * This is needed because this callback uses the_content filter / calls a function
@@ -887,7 +911,6 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		$show_more           = $this->shortcode_atts['show_more'];
 		$offset_number       = $this->shortcode_atts['offset_number'];
 		$masonry_tile_background_color = $this->shortcode_atts['masonry_tile_background_color'];
-		$use_dropshadow      = $this->shortcode_atts['use_dropshadow'];
 		$overlay_icon_color  = $this->shortcode_atts['overlay_icon_color'];
 		$hover_overlay_color = $this->shortcode_atts['hover_overlay_color'];
 		$hover_icon          = $this->shortcode_atts['hover_icon'];
@@ -911,10 +934,13 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		// include easyPieChart which is required for loading Blog module content via ajax correctly
 		wp_enqueue_script( 'easypiechart' );
 
+		// include ET Shortcode scripts
+		wp_enqueue_script( 'et-shortcodes-js' );
+
 		// remove all filters from WP audio shortcode to make sure current theme doesn't add any elements into audio module
 		remove_all_filters( 'wp_audio_shortcode_library' );
 		remove_all_filters( 'wp_audio_shortcode' );
-		remove_all_filters( 'wp_audio_shortcode_class');
+		remove_all_filters( 'wp_audio_shortcode_class' );
 
 		if ( '' !== $masonry_tile_background_color ) {
 			ET_Builder_Element::set_style( $function_name, array(
@@ -964,10 +990,6 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		$overlay_class = 'on' === $use_overlay ? ' et_pb_has_overlay' : '';
 
 		if ( 'on' !== $fullwidth ){
-			if ( 'on' === $use_dropshadow ) {
-				$module_class .= ' et_pb_blog_grid_dropshadow';
-			}
-
 			wp_enqueue_script( 'salvattore' );
 
 			$background_layout = 'light';
@@ -981,8 +1003,9 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			$paged = $et_paged;
 		}
 
-		if ( '' !== $include_categories )
+		if ( '' !== $include_categories ) {
 			$args['cat'] = $include_categories;
+		}
 
 		if ( ! is_search() ) {
 			$args['paged'] = $et_paged;
@@ -1004,6 +1027,15 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			$args['post__not_in'] = array( get_the_ID() );
 		}
 
+		// Images: Add CSS Filters and Mix Blend Mode rules (if set)
+		if ( array_key_exists( 'image', $this->advanced_options ) && array_key_exists( 'css', $this->advanced_options['image'] ) ) {
+			$module_class .= $this->generate_css_filters(
+				$function_name,
+				'child_',
+				self::$data_utils->array_get( $this->advanced_options['image']['css'], 'main', '%%order_class%%' )
+			);
+		}
+
 		ob_start();
 
 		query_posts( $args );
@@ -1015,6 +1047,8 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 
 			while ( have_posts() ) {
 				the_post();
+
+				global $post;
 
 				$post_format = et_pb_post_format();
 
@@ -1028,20 +1062,21 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
 				$titletext = get_the_title();
 				$thumbnail = get_thumbnail( $width, $height, $classtext, $titletext, $titletext, false, 'Blogimage' );
-				$thumb = $thumbnail["thumb"];
+				$thumb = $thumbnail['thumb'];
 
 				$no_thumb_class = '' === $thumb || 'off' === $show_thumbnail ? ' et_pb_no_thumb' : '';
 
 				if ( in_array( $post_format, array( 'video', 'gallery' ) ) ) {
 					$no_thumb_class = '';
-				} ?>
+				}
+				?>
 
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'et_pb_post clearfix' . $no_thumb_class . $overlay_class  ); ?>>
 
 			<?php
 				et_divi_post_format_content();
 
-				if ( ! in_array( $post_format, array( 'link', 'audio', 'quote' ) ) ) {
+				if ( ! in_array( $post_format, array( 'link', 'audio', 'quote' ) ) || post_password_required( $post ) ) {
 					if ( 'video' === $post_format && false !== ( $first_video = et_get_first_video() ) ) :
 						$video_overlay = has_post_thumbnail() ? sprintf(
 							'<div class="et_pb_video_overlay" style="background-image: url(%1$s); background-size: cover;">
@@ -1063,7 +1098,10 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 					elseif ( 'gallery' === $post_format ) :
 						et_pb_gallery_images( 'slider' );
 					elseif ( '' !== $thumb && 'on' === $show_thumbnail ) :
-						if ( 'on' !== $fullwidth ) echo '<div class="et_pb_image_container">'; ?>
+						if ( 'on' !== $fullwidth ) {
+							echo '<div class="et_pb_image_container">';
+						}
+						?>
 							<a href="<?php esc_url( the_permalink() ); ?>" class="entry-featured-image-url">
 								<?php print_thumbnail( $thumb, $thumbnail["use_timthumb"], $titletext, $width, $height ); ?>
 								<?php if ( 'on' === $use_overlay ) {
@@ -1075,8 +1113,8 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 					endif;
 				} ?>
 
-			<?php if ( 'off' === $fullwidth || ! in_array( $post_format, array( 'link', 'audio', 'quote' ) ) ) { ?>
-				<?php if ( ! in_array( $post_format, array( 'link', 'audio' ) ) ) { ?>
+			<?php if ( 'off' === $fullwidth || ! in_array( $post_format, array( 'link', 'audio', 'quote' ) ) || post_password_required( $post ) ) { ?>
+				<?php if ( ! in_array( $post_format, array( 'link', 'audio' ) ) || post_password_required( $post ) ) { ?>
 					<<?php echo $processed_header_level; ?> class="entry-title"><a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a></<?php echo $processed_header_level; ?>>
 				<?php } ?>
 
@@ -1204,7 +1242,7 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 				<div class="et_pb_ajax_pagination_container">
 					%2$s
 				</div>
-			%4$s',
+			%4$s %12$s',
 			( 'on' === $fullwidth ? 'et_pb_posts' : 'et_pb_blog_grid clearfix' ),
 			$posts,
 			esc_attr( $class ),
@@ -1215,7 +1253,8 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 			$video_background,
 			'' !== $parallax_image_background ? ' et_pb_section_parallax' : '',
 			$parallax_image_background,
-			'on' === $fullwidth ? $this->get_text_orientation_classname() : ''
+			$this->get_text_orientation_classname(),
+			$this->drop_shadow_back_compatibility( $function_name )
 		);
 
 		if ( 'on' !== $fullwidth ) {
@@ -1225,6 +1264,10 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		// Restore $wp_filter
 		$wp_filter = $wp_filter_cache;
 		unset($wp_filter_cache);
+
+		// Restore global $post into its original state when et_pb_blog shortcode ends to avoid
+		// the rest of the page uses incorrect global $post variable
+		$post = $post_cache;
 
 		return $output;
 	}
@@ -1241,6 +1284,93 @@ class ET_Builder_Module_Blog extends ET_Builder_Module_Type_PostBased {
 		}
 
 		self::set_style( $function_name, $boxShadow->get_style( $selector, $this->shortcode_atts ) );
+	}
+
+	protected function _add_additional_border_fields() {
+		parent::_add_additional_border_fields();
+
+		$suffix = 'fullwidth';
+
+		$this->_additional_fields_options = array_merge(
+			$this->_additional_fields_options,
+			ET_Builder_Module_Fields_Factory::get( 'Border' )->get_fields( array(
+				'suffix'          => "_{$suffix}",
+				'depends_to'      => array( 'fullwidth' ),
+				'depends_show_if' => 'on',
+				'defaults'        => array(
+					'border_radii'  => 'on||||',
+					'border_styles' => array(
+						'width' => '0px',
+						'color' => '#333333',
+						'style' => 'solid',
+					),
+				),
+			) )
+		);
+
+		$this->advanced_options["border_{$suffix}"]["border_styles_{$suffix}"] = $this->_additional_fields_options["border_styles_{$suffix}"];
+		$this->advanced_options["border_{$suffix}"]["border_radii_{$suffix}"] = $this->_additional_fields_options["border_radii_{$suffix}"];
+
+		$this->advanced_options["border_{$suffix}"]['css'] = array(
+			'main' => array(
+				'border_radii'  => "%%order_class%%:not(.et_pb_blog_grid) .et_pb_post",
+				'border_styles' => "%%order_class%%:not(.et_pb_blog_grid) .et_pb_post",
+			),
+		);
+	}
+
+	function process_advanced_border_options( $function_name ) {
+		parent::process_advanced_border_options( $function_name );
+
+		$suffix = 'fullwidth';
+		/**
+		 * @var ET_Builder_Module_Field_Border $border_field
+		 */
+		$border_field = ET_Builder_Module_Fields_Factory::get( 'Border' );
+
+		$css_selector = ! empty( $this->advanced_options["border_{$suffix}"]['css']['main']['border_radii'] ) ? $this->advanced_options["border_{$suffix}"]['css']['main']['border_radii'] : $this->main_css_element;
+		self::set_style( $function_name, array(
+			'selector'    => $css_selector,
+			'declaration' => $border_field->get_radii_style( $this->shortcode_atts, $this->advanced_options, "_{$suffix}" ),
+			'priority'    => $this->_style_priority,
+		) );
+
+		$css_selector = ! empty( $this->advanced_options["border_{$suffix}"]['css']['main']['border_styles'] ) ? $this->advanced_options["border_{$suffix}"]['css']['main']['border_styles'] : $this->main_css_element;
+		self::set_style( $function_name, array(
+			'selector'    => $css_selector,
+			'declaration' => $border_field->get_borders_style( $this->shortcode_atts, $this->advanced_options, "_{$suffix}" ),
+			'priority'    => $this->_style_priority,
+		) );
+	}
+
+	/**
+	 * Since the styling file is not updated until the author updates the page/post,
+	 * we should keep the drop shadow visible.
+	 *
+	 * @param string $functions_name
+	 *
+	 * @return string
+	 */
+	private function drop_shadow_back_compatibility( $functions_name ) {
+		$utils = ET_Core_Data_Utils::instance();
+		$atts  = $this->shortcode_atts;
+
+		if (
+			version_compare( $utils->array_get( $atts, '_builder_version', '3.0.93' ), '3.0.94', 'lt' )
+			&&
+			'on' !== $utils->array_get( $atts, 'fullwidth' )
+			&&
+			'on' === $utils->array_get( $atts, 'use_dropshadow' )
+		) {
+			$class = self::get_module_order_class( $functions_name );
+
+			return sprintf(
+				'<style>%1$s</style>',
+				sprintf( '.%1$s  article.et_pb_post { box-shadow: 0 1px 5px rgba(0,0,0,.1) }', esc_html( $class ) )
+			);
+		}
+
+		return '';
 	}
 }
 
