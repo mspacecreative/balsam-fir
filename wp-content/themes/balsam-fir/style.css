@@ -185,6 +185,37 @@
 	background-size: cover;
 }
 
+/* GROWERS SECTION
+------------------------------------------------*/
+
+.grower {
+	position: relative;
+}
+
+.grower-1:after, .grower-3:after, .grower-5:after {
+	background: url(images/balsam-illustration-from-right.png) no-repeat;
+	background-position: bottom right;
+	width: 100%;
+	height: 100%;
+	content: '';
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	background-size: auto 100%;
+}
+
+.grower-2:after, .grower-4:after {
+	background: url(images/balsam-illustration-from-left.png) no-repeat;
+	background-position: bottom left;
+	width: 100%;
+	height: 100%;
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-size: auto 100%;
+}
+
 /* CUSTOM FOOTER
 ------------------------------------------------*/
 
