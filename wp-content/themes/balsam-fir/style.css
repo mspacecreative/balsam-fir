@@ -17,7 +17,7 @@
 /* TYPOGRAPHY
 ----------------------------------*/
 
-body, nav a {
+body, nav a, .balsam-header .balsam-mobile-nav a {
 	font-family: "brother-1816", "Open Sans", sans-serif;
 }
 
