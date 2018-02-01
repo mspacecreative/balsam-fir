@@ -38,7 +38,7 @@
 <body <?php body_class(); ?>>
 
 <div class="fixed-bg">
-	<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/balsam-fir-bg.jpg" />
+	<!--<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/balsam-fir-bg.jpg" />-->
 </div>
 
 <?php
