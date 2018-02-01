@@ -22,7 +22,7 @@ if ( ! is_page_template( 'page-template-blank.php' ) ) : ?>
 					<?php 
 					$email = get_field('company_email_address', 'options');
 					if( $email ) { ?>
-					<p><a href="mailto:<?php echo $email ?>"><?php echo $email ?></a></p>
+					<a href="mailto:<?php echo $email ?>">Email Scott</a>
 					<?php } ?>
 				</div>
 				<div class="tree-icon-container">

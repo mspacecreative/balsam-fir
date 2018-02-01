@@ -260,6 +260,13 @@ h2 {
 	position: relative;
 }
 
+#balsam-footer a {
+	padding: 5px 10px;
+	border: 1px solid #e47537;
+	display: inline-block;
+	margin-top: 15px;
+}
+
 .footer-inner {
 	color: #fff;
 }
