@@ -37,9 +37,7 @@
 </head>
 <body <?php body_class(); ?>>
 
-<div class="fixed-bg">
-	<!--<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/balsam-fir-bg.jpg" />-->
-</div>
+<div class="fixed-bg"></div>
 
 <?php
 	$product_tour_enabled = et_builder_is_product_tour_enabled();
