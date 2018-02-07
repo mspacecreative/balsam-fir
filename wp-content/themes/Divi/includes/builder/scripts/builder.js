@@ -5,7 +5,7 @@ window.wp = window.wp || {};
 /**
  * The builder version and product name will be updated by grunt release task. Do not edit!
  */
-window.et_builder_version = '3.0.99';
+window.et_builder_version = '3.0.100';
 window.et_builder_product_name = 'Divi';
 
 ( function($) {
@@ -3701,6 +3701,7 @@ window.et_builder_product_name = 'Divi';
 				this.local_layouts        = et_pb_options.library_local_layouts;
 				this.back_button_template = _.template( $('#et-builder-library-back-button-template').html() );
 				this.current_page         = {};
+				this.account_status_error = false;
 
 				this.account_status_error_template = _.template( $( '#et-builder-library-account-status-error-template' ).html() );
 
@@ -3767,6 +3768,11 @@ window.et_builder_product_name = 'Divi';
 					this.library.on( 'download_progress', this.onDownloadProgress.bind(this) );
 					this.library.on( 'account_status_error', this.onAccountStatusError.bind(this) );
 					this.library.on( 'authentication_complete', this.onAuthenticationComplete.bind(this) );
+
+					this.library.call( 'setAccount', {
+						username: et_pb_options.et_account.et_username, // sanitized previously
+						api_key:  et_pb_options.et_account.et_api_key   // sanitized previously
+					} );
 
 					this.emitLoadingEnded();
 
@@ -3836,9 +3842,6 @@ window.et_builder_product_name = 'Divi';
 			getLibraryURL: function() {
 				var query = [];
 				var args  = {
-					username:  encodeURIComponent( et_pb_options.et_account.et_username ),
-					api_key:   encodeURIComponent( et_pb_options.et_account.et_api_key ),
-					url:       encodeURIComponent( et_pb_options.home_url ),
 					iframe:    1,
 					animation: true,
 					is_bb: 1
@@ -3960,6 +3963,10 @@ window.et_builder_product_name = 'Divi';
 			},
 
 			onAuthenticationComplete: function( result ) {
+				if ( ! this.account_status_error ) {
+					return;
+				}
+
 				this.emitLoadingEnded();
 
 				if ( ! result.authenticated ) {
@@ -3969,6 +3976,8 @@ window.et_builder_product_name = 'Divi';
 
 					return;
 				}
+
+				this.account_status_error = false;
 
 				this.onClickBackButton();
 				this.library.call( 'retryUseLayout' );
@@ -4009,6 +4018,10 @@ window.et_builder_product_name = 'Divi';
 					this.$el.find( '.et-pb-library-account-status-error' ).remove();
 					this.$library.fadeIn();
 				} else {
+					if ( _.isUndefined( this.current_page.previous_url ) ) {
+						return;
+					}
+
 					this.library.call( 'goTo', this.current_page.previous_url );
 				}
 			},
